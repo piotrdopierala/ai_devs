@@ -1,0 +1,12 @@
+{
+  "name": "ai-devs-examples",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "lesson1:install": "npm install --prefix ./01_01 && npm install",
+    "lesson1": "node ./01_01/app.js"
+  }
+}
