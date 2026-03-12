@@ -7,6 +7,10 @@
   },
   "scripts": {
     "lesson1:install": "npm install --prefix ./01_01 && npm install",
-    "lesson1": "node ./01_01/app.js"
+    "lesson1": "node ./01_01/app.js",
+    "lesson2:install": "npm install --prefix ./01_02 && npm install",
+    "lesson2": "node ./01_02/app.js",
+    "lesson3:install": "npm install --prefix ./01_03 && npm install",
+    "lesson3": "node ./01_03/app.js"
   }
 }

@@ -94,5 +94,119 @@ export const resolveModelForProvider = (model) => {
   return model.startsWith("gpt-") ? `openai/${model}` : model;
 };
 
+export const buildResponsesRequest = ({ model, tools, plugins, webSearch = false, ...rest }) => {
+  const request = {
+    model: resolveModelForProvider(model),
+    ...rest
+  };
+
+  if (tools) {
+    request.tools = tools;
+  }
+
+  if (plugins) {
+    request.plugins = plugins;
+  }
+
+  const webSearchConfig = normalizeWebSearchConfig(webSearch);
+
+  if (!webSearchConfig) {
+    return request;
+  }
+
+  if (AI_PROVIDER === "openrouter") {
+    const hasPluginOverrides = (
+        webSearchConfig.engine !== undefined
+        || webSearchConfig.maxResults !== undefined
+        || webSearchConfig.searchPrompt !== undefined
+    );
+
+    if (!hasPluginOverrides) {
+      request.model = normalizeOpenRouterOnlineModel(request.model);
+      return request;
+    }
+
+    request.model = stripOpenRouterOnlineSuffix(request.model);
+    request.plugins = mergeOpenRouterPlugins(request.plugins, {
+      id: "web",
+      ...(webSearchConfig.engine ? { engine: webSearchConfig.engine } : {}),
+      ...(webSearchConfig.maxResults ? { max_results: webSearchConfig.maxResults } : {}),
+      ...(webSearchConfig.searchPrompt ? { search_prompt: webSearchConfig.searchPrompt } : {})
+    });
+
+    return request;
+  }
+
+  request.tools = addUniqueTool(request.tools, { type: "web_search_preview" });
+
+  if (webSearchConfig.searchContextSize) {
+    request.web_search_options = {
+      search_context_size: webSearchConfig.searchContextSize
+    };
+  }
+
+  return request;
+};
+
+const normalizeWebSearchConfig = (webSearch) => {
+  if (!webSearch) {
+    return null;
+  }
+
+  if (webSearch === true) {
+    return {};
+  }
+
+  if (!isPlainObject(webSearch)) {
+    throw new Error("webSearch must be either boolean or an object");
+  }
+
+  if (webSearch.enabled === false) {
+    return null;
+  }
+
+  const config = {};
+
+  if (webSearch.searchContextSize !== undefined) {
+    const searchContextSize = ensureTrimmedString(
+        webSearch.searchContextSize,
+        "webSearch.searchContextSize"
+    );
+
+    if (!VALID_OPENAI_SEARCH_CONTEXT_SIZES.has(searchContextSize)) {
+      throw new Error('webSearch.searchContextSize must be one of: "low", "medium", "high"');
+    }
+
+    config.searchContextSize = searchContextSize;
+  }
+
+  if (webSearch.engine !== undefined) {
+    const engine = ensureTrimmedString(webSearch.engine, "webSearch.engine");
+
+    if (!VALID_OPENROUTER_WEB_ENGINES.has(engine)) {
+      throw new Error('webSearch.engine must be one of: "native", "exa"');
+    }
+
+    config.engine = engine;
+  }
+
+  if (webSearch.maxResults !== undefined) {
+    if (!Number.isInteger(webSearch.maxResults) || webSearch.maxResults <= 0) {
+      throw new Error("webSearch.maxResults must be a positive integer");
+    }
+
+    config.maxResults = webSearch.maxResults;
+  }
+
+  if (webSearch.searchPrompt !== undefined) {
+    config.searchPrompt = ensureTrimmedString(
+        webSearch.searchPrompt,
+        "webSearch.searchPrompt"
+    );
+  }
+
+  return config;
+};
+
 // Backward-compatible alias used in existing examples.
 export { OPENAI_API_KEY, OPENROUTER_API_KEY };

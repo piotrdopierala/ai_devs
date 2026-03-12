@@ -44,10 +44,6 @@ const requestResponse = async (input) => {
 
 const MAX_TOOL_STEPS = 10;
 
-/*
-  Step 4: Run the tool-calling workflow.
-*/
-
 const chat = async (conversation) => {
   let currentConversation = conversation;
   let stepsRemaining = MAX_TOOL_STEPS;
