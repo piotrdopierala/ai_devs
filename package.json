@@ -11,6 +11,8 @@
     "lesson2:install": "npm install --prefix ./01_02 && npm install",
     "lesson2": "node ./01_02/app.js",
     "lesson3:install": "npm install --prefix ./01_03 && npm install",
-    "lesson3": "node ./01_03/app.js"
+    "lesson3": "node ./01_03/app.js",
+    "lesson4:install": "npm install --prefix ./01_04 && npm install",
+    "lesson4": "node ./01_04/app.js"
   }
 }

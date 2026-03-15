@@ -1,8 +1,8 @@
 {
-  "name": "01_03_mcp_translator",
+  "name": "01_03 Chatbot over HTTP, tools usage",
   "version": "1.0.0",
   "type": "module",
-  "description": "MCP-powered translation agent that watches files and translates to English",
+  "description": "Lesson 3, delivery company chatbot",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
