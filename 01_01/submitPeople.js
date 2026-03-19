@@ -4,7 +4,7 @@ if (!AIDEVS_KEY) {
   process.exit(1);
 }
 
-const VERIFY_URL = "https://<BASE_URL>/verify";
+const VERIFY_URL = `${process.env.BASE_URL?.trim()}verify`;
 
 export async function submitPeople(people) {
   const answer = people.map((p) => ({

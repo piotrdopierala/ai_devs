@@ -1,7 +1,7 @@
 import { resolveModelForProvider } from "../../config.js";
 
 export const AIDEVS_KEY = process.env.AIDEVS_KEY?.trim() ?? "";
-export const RAILWAY_API_URL = `${process.env.BASE_URL?.trim() ?? "https://<BASE_URL>/"}verify`;
+export const RAILWAY_API_URL = `${process.env.BASE_URL?.trim()}verify`;
 
 export const api = {
     model: resolveModelForProvider("gpt-4.1"),

@@ -1,7 +1,7 @@
 import { readFile } from "fs/promises";
 
 const AIDEVS_KEY = process.env.AIDEVS_KEY?.trim();
-const BASE_URL = process.env.BASE_URL?.trim() ?? "https://<BASE_URL>/";
+const BASE_URL = process.env.BASE_URL?.trim();
 
 export const handlers = {
     async get_suspects_list() {
@@ -54,7 +54,7 @@ export const handlers = {
     },
 
     async send_results({ name, surname, accessLevel, powerPlant }) {
-        const response = await fetch("https://<BASE_URL>/verify", {
+        const response = await fetch(new URL("verify", BASE_URL), {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ apikey: AIDEVS_KEY, task: "findhim", answer: { name, surname, accessLevel, powerPlant } }),

@@ -4,7 +4,7 @@ if (!AIDEVS_KEY) {
   process.exit(1);
 }
 
-const PEOPLE_CSV_URL = `https://<BASE_URL>/data/${AIDEVS_KEY}/people.csv`;
+const PEOPLE_CSV_URL = `${process.env.BASE_URL?.trim()}data/${AIDEVS_KEY}/people.csv`;
 
 function parseCsv(text) {
   const [headerLine, ...rows] = text.trim().split("\n");

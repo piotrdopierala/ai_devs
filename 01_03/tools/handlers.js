@@ -1,6 +1,6 @@
 
 const AIDEVS_KEY = process.env.AIDEVS_KEY?.trim();
-const BASE_URL = process.env.BASE_URL?.trim() ?? "https://<BASE_URL>/";
+const BASE_URL = process.env.BASE_URL?.trim();
 
 export const handlers = {
     async redirect_package({ packageid, destination, code }) {

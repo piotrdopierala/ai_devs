@@ -10,7 +10,7 @@ const PROJECT_ROOT = join(__dirname, "../..");
 const INPUT_DIR = join(PROJECT_ROOT, "workspace", "input");
 const FAILURES_LOG = join(INPUT_DIR, "failures.md");
 const PACKAGES_CSV = join(INPUT_DIR, "packages.csv");
-const CSV_URL = `https://<BASE_URL>/data/${AIDEVS_KEY}/categorize.csv`;
+const CSV_URL = `${process.env.BASE_URL?.trim()}data/${AIDEVS_KEY}/categorize.csv`;
 
 const fetchPackagesCSVHandler = async () => {
     const response = await fetch(CSV_URL);
