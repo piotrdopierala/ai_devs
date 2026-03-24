@@ -1,0 +1,7 @@
+{
+  "name": "03_02_firmware_agent",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js"
+  }
+}
