@@ -1,0 +1,7 @@
+{
+  "name": "03_03_reactor_agent",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js"
+  }
+}
