@@ -1,0 +1,10 @@
+{
+  "name": "04_01_okoeditor",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "puppeteer-core": "^24.40.0"
+  }
+}
