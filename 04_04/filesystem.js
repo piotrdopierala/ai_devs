@@ -21,10 +21,13 @@ export function buildBatchActions(data) {
   ]
 
   for (const [city, goods] of Object.entries(data.cities)) {
+    const normalizedGoods = Object.fromEntries(
+      Object.entries(goods).map(([k, v]) => [normalizeName(k), v])
+    )
     actions.push({
       action: 'createFile',
       path: `/miasta/${normalizeName(city)}`,
-      content: JSON.stringify(goods),
+      content: JSON.stringify(normalizedGoods),
     })
   }
 

@@ -1,6 +1,6 @@
 import {readNotes} from './notes.js'
 import {extractData} from './extract.js'
-import {buildBatchActions} from './filesystem.js'
+import {buildBatchActions, normalizeName} from './filesystem.js'
 import {callApi} from './api.js'
 import {chat} from './llm.js'
 import {MAX_RETRIES} from './config.js'
@@ -90,7 +90,19 @@ export async function run() {
     const state = await callApi({action: 'listFiles', path: '/'})
 
     log('Requesting fix actions from LLM')
-    const fixActions = await getFixActions(result, state, data)
+    const normalizedData = {
+      ...data,
+      cities: Object.fromEntries(
+        Object.entries(data.cities).map(([city, goods]) => [
+          city,
+          Object.fromEntries(Object.entries(goods).map(([k, v]) => [normalizeName(k), v])),
+        ])
+      ),
+      goods: Object.fromEntries(
+        Object.entries(data.goods).map(([good, cities]) => [normalizeName(good), cities])
+      ),
+    }
+    const fixActions = await getFixActions(result, state, normalizedData)
     log('Fix actions received', fixActions)
 
     if (fixActions.length === 0) {
