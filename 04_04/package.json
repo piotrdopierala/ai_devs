@@ -1,0 +1,8 @@
+{
+  "name": "04_04_filesystem",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js",
+    "test": "node --test"
+  }
+}
