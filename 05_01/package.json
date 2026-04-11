@@ -1,0 +1,8 @@
+{
+  "name": "05_01_radiomonitoring",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js",
+    "test": "node --test"
+  }
+}
